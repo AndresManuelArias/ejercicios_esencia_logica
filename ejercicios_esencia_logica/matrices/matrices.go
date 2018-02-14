@@ -11,7 +11,7 @@ import ( "fmt"
 "../ejecutarEjercicio"
 "../utilities"
 "../utilitiesEsenciaLogica"
-// "../utiliesMatrixArray"
+"../utiliesMatrixArray"
 
 )
 func ejercicios(){
@@ -35,6 +35,12 @@ func ejercicios(){
 		ejecutarEjercicio16,
 		ejecutarEjercicio17,
 		ejecutarEjercicio18,
+		ejecutarEjercicio19,
+		ejecutarEjercicio20,
+		ejecutarEjercicio21,
+		ejecutarEjercicio22,
+		ejecutarEjercicio23,
+		ejecutarEjercicio24,
 	}
 	fmt.Println("Escoja el número de la pregunta; que son el 1 al ",len(posicion)) ;
 	/* 
@@ -455,20 +461,214 @@ func ejecutarEjercicio18(){
 	1);
 }
 /*
-19. Leer dos matrices 4x5 entera y determinar si sus contenidos son exactamente iguales.
+19. Leer dos matrices 4x5 entera y determinar si sus contenidos son exactamente iguales.*/
+type Ejercicio19 struct{}
+func (ejercicio19*Ejercicio19)theTwoMatricesAreEqual(matrix3D [][][]int)bool{
+	equal := true;
+	for row, elementRow := range  matrix3D[0] {	
+		for col, elementCol := range  elementRow { 				
+			fmt.Println(matrix3D[1][row][col],elementCol);		
+			if elementCol != matrix3D[1][row][col] {
+				equal = false;
+				break
+			}
+		}	
+	}		
+	return equal;
+}
+
+func(ejercicio19*Ejercicio19)answer(numbers [][][]int)string{	
+	answer :="Las dos matrices no son iguales";
+	if ejercicio19.theTwoMatricesAreEqual(numbers) {
+		answer = "Las dos matrices si son iguales"
+	}
+	return "El resultado es que: "+answer;
+}
+
+func ejecutarEjercicio19(){
+	ejercicio19 := Ejercicio19{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"19. Leer dos matrices 4x5 entera y determinar si sus contenidos son exactamente iguales.",
+	[2]int{4,5},
+	ejercicio19.answer,
+	2);
+}
+
+/*
 20. Leer dos matrices 4x5 entera, luego leer un entero y determinar si cada uno de los elementos
 de una de las matrices es igual a cada uno de los elementos de la otra matriz multiplicado por
-el entero leído.
-21. Leer dos matrices 4x5 enteras y determinar cuántos datos tienen en común.
+el entero leído.*/
+type Ejercicio20 struct{
+	ejercicio19 Ejercicio19
+}
+func (ejercicio20*Ejercicio20)theTwoMatricesAreEqualMultipleNumber(matrix3D [][][]int,numberMultiple int)bool{
+	conver :=  utiliesMatrixArray.NewPowerMatrixMapArray(func(n int)int{return n*numberMultiple });
+	matrixConver := conver.MapMatrix(matrix3D[0]);
+	var newMatrix [][][]int;
+	newMatrix = append(newMatrix,matrixConver,matrix3D[1]);
+	return ejercicio20.ejercicio19.theTwoMatricesAreEqual(newMatrix);
+}
+
+func(ejercicio20*Ejercicio20)answer(numbers [][][]int)string{	
+	var multipleNumber int
+	fmt.Println("Escriba un numero ")
+	fmt.Scanf("%d\n", &multipleNumber) 	
+	answer :="Las dos matrices no son iguales";
+	if ejercicio20.theTwoMatricesAreEqualMultipleNumber(numbers,multipleNumber) {
+		answer = "Las dos matrices si son iguales"
+	}
+	return "El resultado es que: "+answer;
+}
+
+func ejecutarEjercicio20(){
+	ejercicio20 := Ejercicio20{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"20. Leer dos matrices 4x5 entera, luego leer un entero y determinar si cada uno de los elementos de una de las matrices es igual a cada uno de los elementos de la otra matriz multiplicado por el entero leído.",
+	[2]int{4,5},
+	ejercicio20.answer,
+	2);
+}
+/*
+21. Leer dos matrices 4x5 enteras y determinar cuántos datos tienen en común.*/
+type Ejercicio21 struct{}
+func (ejercicio21*Ejercicio21)whatNumberHasTheSame(matrix3D [][][]int)[]int{
+	var colection []int;
+	arrayMetodos.ForMatrix(matrix3D[0] ,func(n0 int,row int,_ int){
+		if arrayMetodos.Some(matrix3D[1][row] ,func(n1 int)bool{return n0 == n1}){
+			colection = append(colection,n0);			
+		}	
+	})			
+	return colection;
+}
+func(ejercicio21*Ejercicio21)answer(numbers [][][]int)string{	
+	return "Los elementos parecidos son  "+utilities.ArrayToString(ejercicio21.whatNumberHasTheSame(numbers),",");
+}
+
+func ejecutarEjercicio21(){
+	ejercicio21 := Ejercicio21{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"21. Leer dos matrices 4x5 enteras y determinar cuántos datos tienen en común.",
+	[2]int{4,5},
+	ejercicio21.answer,
+	2);
+}
+/*
 22. Leer dos matrices 4x5 enteras y determinar si el número mayor almacenado en la primera está
-en la segunda.
+en la segunda.*/
+type Ejercicio22 struct{}
+func (ejercicio22*Ejercicio22)higherNumberInTheOtherMatrix(matrix3D [][][]int)bool{
+	var numberEqual bool
+	numberMax := utilitiesEsenciaLogica.NumberMaxMatrix(matrix3D[0])
+	arrayMetodos.ForMatrix(matrix3D[1] ,func(n0 int,row int,_ int){
+		if n0 == numberMax {
+			numberEqual = true;
+		}
+	})
+	return numberEqual
+}
+
+func(ejercicio22*Ejercicio22)answer(numbers [][][]int)string{
+	answer := "no esta en la otra matrix"	
+	if ejercicio22.higherNumberInTheOtherMatrix(numbers) {
+		answer = "si se encuentra en la otra matrix"
+	}
+	return "El numero mayor de la primera matrix   "+answer;
+}
+
+func ejecutarEjercicio22(){
+	ejercicio22 := Ejercicio22{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"22. Leer dos matrices 4x5 enteras y determinar si el número mayor almacenado en la primera está en la segunda.",
+	[2]int{4,5},
+	ejercicio22.answer,
+	2);
+}
+/*
 23. Leer dos matrices 4x5 enteras y determinar si el número mayor de una de las matrices es igual
-al número mayor de la otra matriz.
+al número mayor de la otra matriz.*/
+type Ejercicio23 struct{}
+func (ejercicio23*Ejercicio23)higherNumberEqualToHigherNumberinOtherMatrix(matrix3D [][][]int)bool{
+	numberMax0 := utilitiesEsenciaLogica.NumberMaxMatrix(matrix3D[0])
+	numberMax1 := utilitiesEsenciaLogica.NumberMaxMatrix(matrix3D[1])
+	return numberMax0 == numberMax1;
+}
+
+func(ejercicio23*Ejercicio23)answer(numbers [][][]int)string{
+	answer := "no es igual al numero mayor de la segunda matrix"	
+	if ejercicio23.higherNumberEqualToHigherNumberinOtherMatrix(numbers) {
+		answer = "es igual al numero mayor de la segunda matrix"
+	}
+	return "El numero mayor de la primera matrix " +answer;
+}
+
+func ejecutarEjercicio23(){
+	ejercicio23 := Ejercicio23{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"23. Leer dos matrices 4x5 enteras y determinar si el número mayor de una de las matrices es igual al número mayor de la otra matriz.",
+	[2]int{4,5},
+	ejercicio23.answer,
+	2);
+}
+/*
 24. Leer dos matrices 4x5 enteras y determinar si el mayor número primo de una de las matrices
-también se encuentra en la otra matriz.
+también se encuentra en la otra matriz.*/
+type Ejercicio24 struct{}
+func (ejercicio24*Ejercicio24)majorCousinNumberTheSameIsInsideTheOtherMatrix(matrix3D [][][]int)bool{
+	primeNumber := utiliesMatrixArray.NewPrime{};
+	numberEqual := false;
+	primeNumberFilter := primeNumber.Prime();
+	numberMaxPrime0 := utilitiesEsenciaLogica.NumberMaxMatrix(primeNumberFilter.FilterMatrix(matrix3D[0]))
+	arrayMetodos.ForMatrix(matrix3D[1] ,func(n0 int,row int,_ int){
+		if n0 == numberMaxPrime0 {
+			numberEqual = true;
+		}
+	})
+	return numberEqual ;
+}
+
+func(ejercicio24*Ejercicio24)answer(numbers [][][]int)string{
+	answer := "El numero mayor primo de la primera matrix no esta en la segunda matrix"	
+	if ejercicio24.majorCousinNumberTheSameIsInsideTheOtherMatrix(numbers) {
+		answer = "El numero mayor primo de la primera matrix si esta en la segunda matrix"
+	}
+	return answer;
+}
+func ejecutarEjercicio24(){
+	ejercicio24 := Ejercicio24{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"24. Leer dos matrices 4x5 enteras y determinar si el mayor número primo de una de las matrices	también se encuentra en la otra matriz.",
+	[2]int{4,5},
+	ejercicio24.answer,
+	2);
+}
+/*
 25. Leer dos matrices 4x5 enteras y determinar si el mayor número primo de una de las matrices
-es también el mayor número primo de la otra matriz.La Esencia de la Lógica de Programación – Omar Ivan Trejos Buriticá
-305
+es también el mayor número primo de la otra matriz.*/
+type Ejercicio25 struct{}
+func (ejercicio25*Ejercicio25)higherCousinNumberEqualToLargerCousinNumberInTheOtherMatrix(matrix3D [][][]int)bool{
+	primeNumber := utiliesMatrixArray.NewPrime{};
+	primeNumberFilter := primeNumber.Prime();
+	numberMaxPrime0 := utilitiesEsenciaLogica.NumberMaxMatrix(primeNumberFilter.FilterMatrix(matrix3D[0]))
+	numberMaxPrime1 := utilitiesEsenciaLogica.NumberMaxMatrix(primeNumberFilter.FilterMatrix(matrix3D[1]))
+	return numberMaxPrime0 == numberMaxPrime1;
+}
+
+func(ejercicio25*Ejercicio25)answer(numbers [][][]int)string{
+	answer := "no es igual al numero mayor primo de la segunda matrix"	
+	if ejercicio25.higherCousinNumberEqualToLargerCousinNumberInTheOtherMatrix(numbers) {
+		answer = "es igual al numero mayor primo de la segunda matrix"
+	}
+	return answer;
+}
+func ejecutarEjercicio25(){
+	ejercicio25 := Ejercicio25{};
+	ejecutarEjercicio.NewEjecucionEjercicioMatrices(
+	"25. Leer dos matrices 4x5 enteras y determinar si el mayor número primo de una de las matrices	es también el mayor número primo de la otra matriz.",
+	[2]int{4,5},
+	ejercicio25.answer,
+	2);
+}
+/*
 26. Leer dos matrices 4x5 enteras y determinar si la cantidad de números pares almacenados en
 una matriz es igual a la cantidad de números pares almacenados en la otra matriz.
 27. Leer dos matrices 4x5 enteras y determinar si la cantidad de números primos almacenados en

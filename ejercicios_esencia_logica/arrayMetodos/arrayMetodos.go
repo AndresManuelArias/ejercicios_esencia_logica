@@ -1,7 +1,13 @@
 // agregar y mostrar datos
 package arrayMetodos
 
-
+func ForMatrix(matrix [][]int, function func(int,int,int)){
+	for row, elementRow := range  matrix {	
+		for col, elementCol := range  elementRow { 				
+			function(elementCol,row,col);
+		}	
+	}
+}
 func  MapTransformDataString(numeros []int, function func(int)string) []string {
 	var arrayConvertido []string;
 	for numero := 0;numero < len(numeros);numero++ {
